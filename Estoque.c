@@ -1,11 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
 
 struct {
     int qtd;
     int id;
-    char nome[40];
-    char marca[40];
+    char nome[30][40];
+    char marca[30][40];
 } produto[30];
 
 
@@ -35,7 +37,8 @@ int ler_opcao() {
 void addproduto() {
 	int i;
 	
-    for (i = 0; i < 30; i++) {            
+	system("cls");
+    for (i = 0; i <= 30; i++) {            
         if (produto[i].id == 0) {
         	fflush(stdin);
             printf(" NOME DO PRODUTO: ");
@@ -49,6 +52,30 @@ void addproduto() {
             break;
         }
     }
+    system("cls");
+}
+
+void rmvproduto() {
+	int i, id;
+	
+	system("cls");
+	printf(" DIGITE O ID DO PRODUTO: ");
+	scanf("%d", &id);
+	for (i = 0; i <= 30; i++){
+		if (id == produto[i].id) {
+			memset(produto[i].nome, 0, sizeof(produto[i].nome));
+			memset(produto[i].marca, 0, sizeof(produto[i].marca));
+			produto[i].id = 0;
+			produto[i].qtd = 0;
+		}
+	}
+	system("cls");
+}
+
+void consultproduto() {
+	int i, id;
+	
+	printf(" DIGITE");
 }
    
 int main() {
@@ -60,12 +87,23 @@ int main() {
     
     switch(op) {
         case 1:
-            system("cls");
             addproduto();
-            system("cls");
-            printf(" PRODUTO ADICIONADO!\n");
+            sleep(1);
+            printf("\n PRODUTO ADICIONADO!\n");
+            sleep(1);
+			printf("\n RETORNANDO AO MENU...\n");
+			sleep(2);
+			system("cls"); 
             return main();
-        case 2:
+        case 2:        	
+        	rmvproduto();
+        	sleep(1);
+			printf("\n PRODUTO REMOVIDO!\n");
+			sleep(1);
+			printf("\n RETORNANDO AO MENU...\n");
+			sleep(2);
+			system("cls");        	
+        	return main();
         case 3:
         case 4:        
         break;
