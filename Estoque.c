@@ -6,8 +6,9 @@
 struct {
     int qtd;
     int id;
-    char nome[30][40];
-    char marca[30][40];
+    float preco;
+    char nome[40];
+    char marca[40];
 } produto[30];
 
 
@@ -49,10 +50,14 @@ void addproduto() {
             scanf("%d", &produto[i].id);
             printf(" QUANTIDADE DO PRODUTO: ");
             scanf(" %d", &produto[i].qtd);
+            printf(" PRECO DO PRODUTO: ");
+            scanf("%f", &produto[i].preco);
             break;
         }
     }
     system("cls");
+    sleep(1);
+    printf("\n PRODUTO ADICIONADO!\n");
 }
 
 void rmvproduto() {
@@ -67,15 +72,47 @@ void rmvproduto() {
 			memset(produto[i].marca, 0, sizeof(produto[i].marca));
 			produto[i].id = 0;
 			produto[i].qtd = 0;
+			produto[i].preco = 0;
+			system("cls");
+		}
+		else {
+			system("cls");
+			printf("\n PRODUTO NAO ENCONTRADO.\n");
 		}
 	}
-	system("cls");
 }
 
 void consultproduto() {
-	int i, id;
+	int i, id, op;
+	bool valido = false;
 	
-	printf(" DIGITE");
+	system("cls");
+	while (!valido) {
+    	printf(" DIGITE O ID DO PRODUTO: ");
+    	scanf("%d", &id);
+    	for (i = 0; i <= 30; i++) {
+    		if (id == produto[i].id) {
+    			printf("\n NOME DO PRODUTO: %s", produto[i].nome);
+    			printf(" MARCA DO PRODUTO: %s", produto[i].marca);
+    			printf(" ID DO PRODUTO: %d\n", produto[i].id);
+    			printf(" QUANTIDADE DO PRODUTO: %d\n\n", produto[i].qtd);
+    			printf(" DESEJA CONSULTAR OUTRO PRODUTO?\n");
+    			printf(" [1] SIM    [2] NAO\n");
+    			scanf("%d", &op);
+    			if (op == 1) {
+    			    break;
+    			} else {
+    			    valido = true;
+    			}
+    		}
+    	}
+    	if (!valido) {
+    		system("cls");
+    		sleep(2);
+    		printf("\n PRODUTO NAO ENCONTRADO.\n");
+    		printf(" DIGITE UM PRODUTO CADASTRADO.\n\n");
+    	}
+	}
 }
    
 int main() {
@@ -89,24 +126,23 @@ int main() {
         case 1:
             addproduto();
             sleep(1);
-            printf("\n PRODUTO ADICIONADO!\n");
-            sleep(1);
 			printf("\n RETORNANDO AO MENU...\n");
 			sleep(2);
 			system("cls"); 
             return main();
         case 2:        	
         	rmvproduto();
-        	sleep(1);
-			printf("\n PRODUTO REMOVIDO!\n");
 			sleep(1);
 			printf("\n RETORNANDO AO MENU...\n");
 			sleep(2);
 			system("cls");        	
         	return main();
         case 3:
+			consultproduto();
+			sleep(1);
+			printf("\n");
         case 4:        
         break;
     }
-    return 0;
+return 0;
 }
